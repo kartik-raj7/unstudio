@@ -40,7 +40,6 @@ const FabricJSCanvas = ({
         }
       });
     } else {
-      console.log("Canvas context disposed");
     }
   };
 
@@ -82,27 +81,24 @@ const FabricJSCanvas = ({
   };
 
   const addImage = (canvas: any, url: any) => {
-    var pugImg = new Image();
-    pugImg.onload = function (img) {
-      var pug = new fabric.Image(pugImg, {
+    var Img = new Image();
+    Img.onload = function () {
+      const maxWidth = 200;
+      let scaleFactor = 1;
+      if (Img.width > maxWidth) {
+        scaleFactor = maxWidth / Img.width;
+      }
+  
+      const newimage = new fabric.Image(Img, {
         angle: 0,
-        width: 300,
-        height: 300,
         left: 50,
         top: 70,
+        scaleX: scaleFactor,
+        scaleY: scaleFactor,
       });
-      canvas.add(pug);
+      canvas.add(newimage);
     };
-    pugImg.src = 'http://i.imgur.com/8rmMZI3.jpg';
-    // imgElement.onload = (url) => {
-    //   var imgInstance = new fabric.FabricImage(imgElement, {
-    //     left: 400,
-    //     top: 600,
-    //     angle: 30,
-    //   });
-    //   canvas.add(imgInstance);
-    // };
-    // imgElement.src='http://i.imgur.com/8rmMZI3.jpg';
+    Img.src = url;
   };
 
   useEffect(() => {
@@ -131,8 +127,8 @@ const FabricJSCanvas = ({
   return (
     <div>
       <canvas
-        width="800"
-        height="550"
+        width={window.innerWidth*0.75}
+        height={window.innerHeight*0.80}
         ref={canvasEl}
         style={{ border: "4px solid #e1d2f8" }}
       />
@@ -144,3 +140,32 @@ const FabricJSCanvas = ({
 };
 
 export default FabricJSCanvas;
+
+
+// const [dimensions, setDimensions] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  //   calcWidth: window.innerWidth * 0.75,
+  //   calcHeight: window.innerHeight * 0.80,
+  // });
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setDimensions({
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //       calcWidth: window.innerWidth * 0.75,
+  //       calcHeight: window.innerHeight * 0.80,
+  //     });
+  //   };
+
+  //   window.addEventListener('resize', handleResize);
+    
+  //   // Initial calculation
+  //   handleResize();
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
+

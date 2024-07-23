@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Avatar, Tooltip } from "@mui/material";
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie'
 const SigninButton = () => {
   const router = useRouter();
   const handleSignIn = async () => {
@@ -18,7 +19,7 @@ const SigninButton = () => {
               <div>{session.user.name}</div>
               <div>{session.user.email}</div>
               <button
-                onClick={() => signOut({ callbackUrl: '/' })}
+                onClick={() => {signOut({ callbackUrl: '/' }),Cookies.remove('user')}}
                 className="px-5 py-2 border-2 border-[#ecb49d] rounded-lg mr-3"
               >
                 Sign Out
